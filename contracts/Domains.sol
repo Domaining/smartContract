@@ -30,7 +30,7 @@ contract Domains is ERC721URIStorage {
   error InvalidName(string name);
 
  // We make the contract "payable" by adding this to the constructor
-  constructor(string memory _tld) payable ERC721("Core Name Service", "CNS") {
+  constructor(string memory _tld) payable ERC721("Fantom Name Service", "FNS") {
     owner = payable(msg.sender);
     tld = _tld;
     console.log("%s name service deployed", _tld);
@@ -41,7 +41,7 @@ contract Domains is ERC721URIStorage {
     uint len = StringUtils.strlen(name);
     require(len > 0);
     if (len == 3) {
-      return 5 * 10**16; // 5 MATIC = 5 000 000 000 000 000 000 (18 decimals). We're going with 0.5 Matic cause the faucets don't give a lot
+      return 5 * 10**16; // 5 MATIC = 5 000 000 000 000 000 000 (18 decimals). 
     } else if (len == 4) {
       return 3 * 10**16; // To charge smaller amounts, reduce the decimals. This is 0.3
     } else {
@@ -52,7 +52,7 @@ contract Domains is ERC721URIStorage {
     require(domains[name] == address(0));
 
     uint256 _price = price(name);
-    require(msg.value >= _price, "Not enough Matic paid");
+    require(msg.value >= _price, "Not enough Fantom paid");
     if (domains[name] != address(0)) revert AlreadyRegistered();
     if (!valid(name)) revert InvalidName(name);
     // Combine the name passed into the function  with the TLD
@@ -134,6 +134,6 @@ contract Domains is ERC721URIStorage {
        uint amount = address(this).balance;
   
   (bool success, ) = msg.sender.call{value: amount}("");
-  require(success, "Failed to withdraw Matic");
+  require(success, "Failed to withdraw Fantom");
   } 
 }
